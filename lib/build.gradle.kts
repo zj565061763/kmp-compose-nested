@@ -14,7 +14,7 @@ kotlin {
   androidTarget {
     publishLibraryVariants("release")
     compilerOptions {
-      jvmTarget.set(JvmTarget.JVM_1_8)
+      jvmTarget.set(JvmTarget.JVM_11)
     }
   }
 
@@ -33,20 +33,17 @@ kotlin {
     commonMain.dependencies {
       implementation(compose.foundation)
     }
-    commonTest.dependencies {
-      implementation(libs.kmp.kotlin.test)
-    }
   }
 }
 
 android {
   namespace = "com.sd.lib.kmp.compose_nested"
-  compileSdk = 34
+  compileSdk = 35
   defaultConfig {
     minSdk = 21
   }
   compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
   }
 }
