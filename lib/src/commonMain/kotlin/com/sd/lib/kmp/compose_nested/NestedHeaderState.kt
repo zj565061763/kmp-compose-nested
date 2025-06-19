@@ -6,8 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.listSaver
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
@@ -20,17 +19,11 @@ import kotlinx.coroutines.currentCoroutineContext
 import kotlin.math.absoluteValue
 
 @Composable
-fun rememberNestedHeaderState(
-  initialOffset: Float? = null,
-): NestedHeaderState {
-  return rememberSaveable(saver = NestedHeaderState.Saver) {
-    NestedHeaderState(initialOffset = initialOffset)
-  }
+fun rememberNestedHeaderState(): NestedHeaderState {
+  return remember { NestedHeaderState() }
 }
 
-class NestedHeaderState internal constructor(
-  private var initialOffset: Float? = null,
-) {
+class NestedHeaderState internal constructor() {
   var isReady by mutableStateOf(false)
     private set
 
@@ -68,11 +61,6 @@ class NestedHeaderState internal constructor(
       delta.toFloat().coerceAtMost(0f)
     } else {
       -header.toFloat()
-    }
-
-    initialOffset?.also {
-      initialOffset = null
-      offset = it.coerceIn(_minOffset, _maxOffset)
     }
 
     isReady = header > 0
@@ -170,13 +158,6 @@ class NestedHeaderState internal constructor(
         job.cancel()
       }
     }
-  }
-
-  companion object {
-    internal val Saver = listSaver(
-      save = { listOf(it.offset) },
-      restore = { NestedHeaderState(initialOffset = it[0]) }
-    )
   }
 }
 
