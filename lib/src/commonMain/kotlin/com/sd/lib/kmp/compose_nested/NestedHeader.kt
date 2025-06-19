@@ -35,7 +35,7 @@ fun NestedHeader(
       ContentBox(state = state, content = content)
     },
   ) { measurables, constraints ->
-    val cs = constraints.copy(minWidth = 0, minHeight = 0)
+    val cs = constraints.copy(minWidth = constraints.maxWidth, minHeight = 0)
 
     val headerPlaceable = measurables[0].measure(cs.copy(maxHeight = Constraints.Infinity))
     val contentPlaceable = measurables[1].measure(cs)
