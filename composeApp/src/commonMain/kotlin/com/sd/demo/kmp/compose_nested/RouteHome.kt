@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 fun RouteHome(
   onClickSample: () -> Unit,
   onClickSampleShortHeader: () -> Unit,
+  onClickSampleShortContent: () -> Unit,
   onClickSampleInHorizontalPager: () -> Unit,
 ) {
   Scaffold { padding ->
@@ -23,6 +24,7 @@ fun RouteHome(
     ) {
       Button(onClick = onClickSample) { Text(text = "Sample") }
       Button(onClick = onClickSampleShortHeader) { Text(text = "SampleShortHeader") }
+      Button(onClick = onClickSampleShortContent) { Text(text = "SampleShortContent") }
       Button(onClick = onClickSampleInHorizontalPager) { Text(text = "SampleInHorizontalPager") }
     }
   }

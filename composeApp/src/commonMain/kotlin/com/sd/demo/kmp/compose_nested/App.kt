@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sd.demo.kmp.compose_nested.AppRoute.SampleShortContent
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -22,11 +23,13 @@ fun App() {
         RouteHome(
           onClickSample = { navController.navigate(AppRoute.Sample) },
           onClickSampleShortHeader = { navController.navigate(AppRoute.SampleShortHeader) },
+          onClickSampleShortContent = { navController.navigate(AppRoute.SampleShortContent) },
           onClickSampleInHorizontalPager = { navController.navigate(AppRoute.SampleInHorizontalPager) },
         )
       }
       composable<AppRoute.Sample> { Sample(onClickBack = { navController.popBackStack() }) }
       composable<AppRoute.SampleShortHeader> { SampleShortHeader(onClickBack = { navController.popBackStack() }) }
+      composable<AppRoute.SampleShortContent> { SampleShortContent(onClickBack = { navController.popBackStack() }) }
       composable<AppRoute.SampleInHorizontalPager> { SampleInHorizontalPager(onClickBack = { navController.popBackStack() }) }
     }
   }

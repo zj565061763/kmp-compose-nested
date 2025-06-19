@@ -13,5 +13,8 @@ sealed interface AppRoute {
   data object SampleShortHeader : AppRoute
 
   @Serializable
+  data object SampleShortContent : AppRoute
+
+  @Serializable
   data object SampleInHorizontalPager : AppRoute
 }

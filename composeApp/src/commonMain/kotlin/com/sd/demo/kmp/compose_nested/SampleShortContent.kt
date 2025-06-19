@@ -1,7 +1,6 @@
 package com.sd.demo.kmp.compose_nested
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,29 +12,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.sd.lib.kmp.compose_nested.NestedHeader
-import com.sd.lib.kmp.compose_nested.NestedHeaderScrollBehavior
-import com.sd.lib.kmp.compose_nested.rememberNestedHeaderState
 
 @Composable
-fun SampleShortHeader(
+fun SampleShortContent(
   onClickBack: () -> Unit,
 ) {
-  val state = rememberNestedHeaderState()
   RouteScaffold(
-    title = "SampleShortHeader",
+    title = "SampleShortContent",
     onClickBack = onClickBack,
   ) {
     NestedHeader(
       modifier = Modifier.fillMaxSize(),
-      state = state,
-      scrollBehavior = NestedHeaderScrollBehavior.Fixed,
-      header = {
-        HeaderView(modifier = Modifier.clickable {
-          state.scrollToContent()
-        })
-      },
+      header = { HeaderView(modifier = Modifier.height(200.dp)) },
     ) {
-      VerticalListView(count = 50)
+      VerticalListView(count = 3)
     }
   }
 }
@@ -47,7 +37,6 @@ private fun HeaderView(
   Box(
     modifier = modifier
       .fillMaxWidth()
-      .height(300.dp)
       .background(Color.Red),
     contentAlignment = Alignment.Center,
   ) {
