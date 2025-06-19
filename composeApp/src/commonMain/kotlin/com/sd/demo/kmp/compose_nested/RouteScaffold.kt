@@ -1,6 +1,5 @@
 package com.sd.demo.kmp.compose_nested
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -47,7 +46,6 @@ fun RouteScaffold(
           .padding(padding)
           .padding(contentPadding),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp),
         content = content,
       )
     }

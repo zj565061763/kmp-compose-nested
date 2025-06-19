@@ -15,12 +15,10 @@ import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.input.pointer.util.addPointerInputChange
-import androidx.compose.ui.layout.SubcomposeLayout
+import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.constrainHeight
-import androidx.compose.ui.unit.constrainWidth
 import kotlinx.coroutines.launch
-import kotlin.math.max
 
 @Composable
 fun NestedHeader(
@@ -30,38 +28,19 @@ fun NestedHeader(
   header: @Composable () -> Unit,
   content: @Composable () -> Unit,
 ) {
-  SubcomposeLayout(modifier = modifier) { constraints ->
-    val hasFixedWidth = constraints.hasFixedWidth
-    val hasFixedHeight = constraints.hasFixedHeight
+  Layout(
+    modifier = modifier,
+    content = {
+      HeaderBox(state = state, header = header)
+      ContentBox(state = state, content = content)
+    },
+  ) { measurables, constraints ->
     val cs = constraints.copy(minWidth = 0, minHeight = 0)
 
-    val headerPlaceable = (subcompose(SlotId.Header) {
-      HeaderBox(
-        state = state,
-        header = header,
-      )
-    }).let {
-      check(it.size == 1)
-      it.first().measure(cs.copy(maxHeight = Constraints.Infinity))
-    }
+    val headerPlaceable = measurables[0].measure(cs.copy(maxHeight = Constraints.Infinity))
+    val contentPlaceable = measurables[1].measure(cs)
 
-    val contentPlaceable = (subcompose(SlotId.Content) {
-      ContentBox(
-        state = state,
-        content = content,
-      )
-    }).let {
-      check(it.size == 1)
-      it.first().measure(cs)
-    }
-
-    val layoutWidth = if (hasFixedWidth) {
-      cs.maxWidth
-    } else {
-      cs.constrainWidth(max(headerPlaceable.width, contentPlaceable.width))
-    }
-
-    val layoutHeight = if (hasFixedHeight) {
+    val layoutHeight = if (constraints.hasFixedHeight) {
       cs.maxHeight
     } else {
       cs.constrainHeight(headerPlaceable.height + contentPlaceable.height)
@@ -73,7 +52,7 @@ fun NestedHeader(
       container = layoutHeight,
     )
 
-    layout(layoutWidth, layoutHeight) {
+    layout(constraints.maxWidth, layoutHeight) {
       val offset = state.offset.toInt()
       when (scrollBehavior) {
         NestedHeaderScrollBehavior.Scroll -> headerPlaceable.placeRelative(0, offset)
@@ -82,11 +61,6 @@ fun NestedHeader(
       contentPlaceable.placeRelative(0, headerPlaceable.height + offset)
     }
   }
-}
-
-private enum class SlotId {
-  Header,
-  Content,
 }
 
 @Composable
